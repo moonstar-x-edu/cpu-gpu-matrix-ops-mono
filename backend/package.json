@@ -1,0 +1,30 @@
+{
+  "name": "gpu-cpu-results-backend",
+  "version": "0.1.0",
+  "description": "API that serves the results of clients that ran the benchmark.",
+  "private": true,
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "nodemon npm start",
+    "lint:errors-only": "eslint src --quiet",
+    "lint": "eslint src"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "license": "MIT",
+  "main": "./src/app.js",
+  "dependencies": {
+    "@greencoast/logger": "^1.0.1",
+    "@keyv/sqlite": "^2.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "keyv": "^4.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.21.0",
+    "eslint-config-greencoast": "0.0.2",
+    "nodemon": "^2.0.7"
+  }
+}
