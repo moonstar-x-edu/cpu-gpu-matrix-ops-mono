@@ -1,11 +1,14 @@
 import React from 'react';
 import Router from '../router';
+import { AppContextProvider } from '../../context/AppContext';
 import '../../styles/main.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
-    <Router />
+    <AppContextProvider>
+      <Router />
+    </AppContextProvider>
   );
 };
 

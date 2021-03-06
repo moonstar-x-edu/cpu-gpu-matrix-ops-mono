@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import Navbar from '../common/navbar';
 import Benchmark from '../benchmark';
 import Results from '../results';
 import NotFound from '../notFound';
@@ -9,6 +10,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <div>
+        <Navbar />
         <Switch>
           <Route exact path={ROUTES.home}>
             <Redirect to={ROUTES.benchmark} />

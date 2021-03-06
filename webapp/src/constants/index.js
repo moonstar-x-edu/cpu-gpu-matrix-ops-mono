@@ -3,3 +3,8 @@ export const ROUTES = {
   benchmark: '/benchmark',
   results: '/results'
 };
+
+export const NAVBAR_ITEMS = {
+  benchmark: 'benchmark',
+  results: 'results'
+};
