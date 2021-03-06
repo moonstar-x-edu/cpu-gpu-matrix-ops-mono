@@ -2,5 +2,8 @@
   "extends": "greencoast/node",
   "parserOptions": {
     "ecmaVersion": 2020
+  },
+  "rules": {
+    "new-cap": "off"
   }
 }
