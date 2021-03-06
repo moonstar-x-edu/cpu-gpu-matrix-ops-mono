@@ -67,18 +67,16 @@ const deleteResult = async(id) => {
 };
 
 const updateResult = async(id, newData) => {
-  newData.id = id;
+  const oldData = await results.get(id);
 
-  const entries = await resultEntries.get('entries');
-  const isResultInEntries = entries.includes(id);
-
-  if (!isResultInEntries) {
+  if (!oldData) {
     throw new KeyNotFoundError(`Result entry for ${id} does not exist!`);
   }
 
-  await results.set(id, newData);
+  const mergedData = { ...oldData, ...newData };
+  await results.set(id, mergedData);
 
-  return newData;
+  return mergedData;
 };
 
 module.exports = {
