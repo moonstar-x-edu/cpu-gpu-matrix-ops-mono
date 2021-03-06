@@ -1,4 +1,6 @@
 /* eslint-disable max-params */
+const logger = require('@greencoast/logger');
+const onFinished = require('on-finished');
 const { HTTP_CODES } = require('../constants');
 const { generateResponse } = require('../utils');
 const { InvalidBodyError, KeyNotFoundError } = require('../errors');
@@ -32,8 +34,21 @@ const handleError = (error, req, res, next) => {
   next();
 };
 
+const logRequests = (req, res, next) => {
+  onFinished(res, (error, res) => {
+    if (error) {
+      logger.error(error);
+      return;
+    }
+
+    logger.info(`${req.method}:${req.path} ${res.statusCode} (${req.ip})`);
+  });
+  next();
+};
+
 module.exports = {
   allowCORS,
   onlySupportedMethods,
-  handleError
+  handleError,
+  logRequests
 };

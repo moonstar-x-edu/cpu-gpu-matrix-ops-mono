@@ -7,12 +7,6 @@ const HTTP_CODES = {
   INTERNAL_SERVER_ERROR: 500
 };
 
-const HTTP_STATUS = Object.keys(HTTP_CODES).reduce((statuses, status) => {
-  const code = HTTP_CODES[status];
-  statuses[code] = status;
-  return statuses;
-}, {});
-
 const DEFAULT_MESSAGES = {
   [HTTP_CODES.BAD_REQUEST]: "The server couldn't process your request.",
   [HTTP_CODES.NOT_FOUND]: 'The requested resource was not found. Please check that the endpoint is written correctly.',
@@ -23,6 +17,5 @@ const DEFAULT_MESSAGES = {
 
 module.exports = {
   HTTP_CODES,
-  HTTP_STATUS,
   DEFAULT_MESSAGES
 };
