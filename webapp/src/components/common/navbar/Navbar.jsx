@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <BSNavbar collapseOnSelect expand="lg" variant="dark">
       <BSNavbar.Brand as={Link} to={ROUTES.benchmark}>
-        <img src={`${process.env.PUBLIC_URL}/img/logo.png`} alt="Site logo" className="brand-logo" />
+        <img src="/img/logo.png" alt="Site logo" className="brand-logo" />
         <span className="h2 brand-name" />
       </BSNavbar.Brand>
       <BSNavbar.Toggle aria-controls="responsive-navbar" />
