@@ -64,7 +64,22 @@ router.get('/result/:id', (req, res) => {
 });
 
 router.delete('/result/:id', (req, res) => {
+  const { id } = req.params;
 
+  return db.ops.deleteResult(id)
+    .then((deleted) => {
+      return res.status(HTTP_CODES.OK)
+        .send(generateResponse(HTTP_CODES.OK, deleted));
+    })
+    .catch((error) => {
+      if (error instanceof KeyNotFoundError) {
+        return res.status(HTTP_CODES.NOT_FOUND)
+          .send(generateResponse(HTTP_CODES.NOT_FOUND, error));
+      }
+
+      return res.status(HTTP_CODES.INTERNAL_SERVER_ERROR)
+        .send(generateResponse(HTTP_CODES.INTERNAL_SERVER_ERROR, error));
+    });
 });
 
 router.put('/result/:id', (req, res) => {
