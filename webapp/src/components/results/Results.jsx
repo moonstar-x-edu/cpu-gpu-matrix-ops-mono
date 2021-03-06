@@ -37,7 +37,7 @@ const Results = () => {
   return (
     <Container className="results-content">
       RESULTS
-      <ResultBarChart data={data} redraw />
+      <ResultBarChart data={data} redraw yLabel="ms (lower is better)" />
     </Container>
   );
 };
