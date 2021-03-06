@@ -19,6 +19,15 @@ resultEntries.on('error', (error) => {
   logger.error(error);
 });
 
+const prepareResultEntries = async() => {
+  const entries = await resultEntries.get('entries');
+  if (!entries) {
+    await resultEntries.set('entries', []);
+    logger.warn('Initialized result entries namespace.');
+  }
+};
+prepareResultEntries();
+
 const createResult = async(data) => {
   const id = uuid();
   data.id = id;
