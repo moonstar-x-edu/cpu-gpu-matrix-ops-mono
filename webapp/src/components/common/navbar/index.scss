@@ -1,0 +1,24 @@
+.navbar {
+  background-color: $navbar-bg;
+
+  .brand-logo {
+    width: 2rem;
+    height: 2rem;
+    margin-right: $std-margin-half;
+    vertical-align: text-bottom;
+    display: inline-block;
+  }
+
+  .brand-name {
+    display: inline-block;
+    margin-bottom: 0;
+
+    &:before {
+      content: "CPU/GPU Matrix Benchmark";
+
+      @media only screen and (max-width: $sub-collapsing-breakpoint) {
+        content: "CPU/GPU";
+      }
+    }
+  }
+}

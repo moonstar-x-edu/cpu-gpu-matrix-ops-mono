@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import App from './components/app';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
