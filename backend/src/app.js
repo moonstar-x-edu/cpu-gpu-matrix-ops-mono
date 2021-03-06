@@ -11,7 +11,7 @@ const HTTP_PORT = process.env.HTTP_PORT || 8080;
 const app = express();
 app.use(allowCORS);
 
-app.use('/results', resultsRouter);
+app.use('/', resultsRouter);
 
 app.get('/', (req, res) => {
   res.status(HTTP_CODES.OK).send(generateResponse(HTTP_CODES.OK, 'It works!'));
