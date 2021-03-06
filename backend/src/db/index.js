@@ -1,7 +1,7 @@
 const Keyv = require('keyv');
 const logger = require('@greencoast/logger');
 const { v4: uuid } = require('uuid');
-const { dbURI, prepareDatabaseFileSync } = require('./prepare');
+const { dbURI, prepareDatabaseFileSync, prepareResultEntries } = require('./prepare');
 const { KeyNotFoundError } = require('../errors');
 
 prepareDatabaseFileSync();
@@ -19,14 +19,7 @@ resultEntries.on('error', (error) => {
   logger.error(error);
 });
 
-const prepareResultEntries = async() => {
-  const entries = await resultEntries.get('entries');
-  if (!entries) {
-    await resultEntries.set('entries', []);
-    logger.warn('Initialized result entries namespace.');
-  }
-};
-prepareResultEntries();
+prepareResultEntries(resultEntries);
 
 const createResult = async(data) => {
   const id = uuid();
