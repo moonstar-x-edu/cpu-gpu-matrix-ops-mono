@@ -57,6 +57,21 @@ const deleteResult = async(id) => {
   return data;
 };
 
+const updateResult = async(id, newData) => {
+  newData.id = id;
+
+  const entries = await resultEntries.get('entries');
+  const isResultInEntries = entries.includes(id);
+
+  if (!isResultInEntries) {
+    throw new KeyNotFoundError(`Result entry for ${id} does not exist!`);
+  }
+
+  await results.set(id, newData);
+
+  return newData;
+};
+
 module.exports = {
   db: {
     results,
@@ -65,7 +80,8 @@ module.exports = {
       createResult,
       getResult,
       getAllResults,
-      deleteResult
+      deleteResult,
+      updateResult
     }
   }
 };
