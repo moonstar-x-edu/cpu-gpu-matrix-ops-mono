@@ -31,12 +31,24 @@ const createResult = async(data) => {
   return data;
 };
 
+const getResult = (id) => {
+  return results.get(id);
+};
+
+const getAllResults = async() => {
+  const entries = await resultEntries.get('entries');
+
+  return Promise.all(entries.map((entry) => getResult(entry)));
+};
+
 module.exports = {
   db: {
     results,
     resultEntries,
     ops: {
-      createResult
+      createResult,
+      getResult,
+      getAllResults
     }
   }
 };
