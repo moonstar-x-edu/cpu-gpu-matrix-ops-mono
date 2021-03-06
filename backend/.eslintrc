@@ -1,3 +1,6 @@
 {
-  "extends": "greencoast/node"
+  "extends": "greencoast/node",
+  "parserOptions": {
+    "ecmaVersion": 2020
+  }
 }
