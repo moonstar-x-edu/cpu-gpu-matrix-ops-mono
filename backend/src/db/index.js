@@ -2,6 +2,7 @@ const Keyv = require('keyv');
 const logger = require('@greencoast/logger');
 const { v4: uuid } = require('uuid');
 const { dbURI, prepareDatabaseFileSync } = require('./prepare');
+const { KeyNotFoundError } = require('../errors');
 
 prepareDatabaseFileSync();
 
@@ -41,6 +42,21 @@ const getAllResults = async() => {
   return Promise.all(entries.map((entry) => getResult(entry)));
 };
 
+const deleteResult = async(id) => {
+  const data = await results.get(id);
+  const deleted = await results.delete(id);
+
+  if (!deleted) {
+    throw new KeyNotFoundError(`Result entry for ${id} does not exist!`);
+  }
+
+  const entries = await resultEntries.get('entries');
+  const newEntries = entries.filter((entry) => entry !== id);
+  await resultEntries.set('entries', newEntries);
+
+  return data;
+};
+
 module.exports = {
   db: {
     results,
@@ -48,7 +64,8 @@ module.exports = {
     ops: {
       createResult,
       getResult,
-      getAllResults
+      getAllResults,
+      deleteResult
     }
   }
 };
