@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from '../common/navbar';
+import Footer from '../common/footer';
 import Benchmark from '../benchmark';
 import Results from '../results';
 import NotFound from '../notFound';
@@ -9,8 +10,8 @@ import { ROUTES } from '../../constants';
 const Router = () => {
   return (
     <BrowserRouter>
-      <div>
-        <Navbar />
+      <Navbar />
+      <div className="site-content my-4">
         <Switch>
           <Route exact path={ROUTES.home}>
             <Redirect to={ROUTES.benchmark} />
@@ -26,6 +27,7 @@ const Router = () => {
           </Route>
         </Switch>
       </div>
+      <Footer />
     </BrowserRouter>
   );
 };
