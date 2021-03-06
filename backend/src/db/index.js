@@ -35,7 +35,14 @@ const createResult = async(data) => {
 };
 
 const getResult = (id) => {
-  return results.get(id);
+  return results.get(id)
+    .then((data) => {
+      if (!data) {
+        throw new KeyNotFoundError(`Result entry for ${id} does not exist!`);
+      }
+
+      return data;
+    });
 };
 
 const getAllResults = async() => {

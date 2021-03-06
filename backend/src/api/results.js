@@ -4,7 +4,7 @@ const { db } = require('../db');
 const { HTTP_CODES, DEFAULT_MESSAGES } = require('../constants');
 const { generateResponse } = require('../utils');
 const { onlySupportedMethods } = require('../middleware');
-const { InvalidBodyError } = require('../errors');
+const { InvalidBodyError, KeyNotFoundError } = require('../errors');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -44,18 +44,33 @@ router.post('/result', (req, res) => {
 
 router.post('/result', onlySupportedMethods(['POST']));
 
-router.get('/result:id', (req, res) => {
+router.get('/result/:id', (req, res) => {
+  const { id } = req.params;
+
+  return db.ops.getResult(id)
+    .then((data) => {
+      return res.status(HTTP_CODES.OK)
+        .send(generateResponse(HTTP_CODES.OK, data));
+    })
+    .catch((error) => {
+      if (error instanceof KeyNotFoundError) {
+        return res.status(HTTP_CODES.NOT_FOUND)
+          .send(generateResponse(HTTP_CODES.NOT_FOUND, error));
+      }
+
+      return res.status(HTTP_CODES.INTERNAL_SERVER_ERROR)
+        .send(generateResponse(HTTP_CODES.INTERNAL_SERVER_ERROR, error));
+    });
+});
+
+router.delete('/result/:id', (req, res) => {
 
 });
 
-router.delete('/result:id', (req, res) => {
+router.put('/result/:id', (req, res) => {
 
 });
 
-router.put('/result:id', (req, res) => {
-
-});
-
-router.all('/result:id', onlySupportedMethods(['GET, DELETE, PUT']));
+router.all('/result/:id', onlySupportedMethods(['GET, DELETE, PUT']));
 
 module.exports = router;
