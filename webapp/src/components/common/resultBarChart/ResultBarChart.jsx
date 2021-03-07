@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Bar } from '@reactchartjs/react-chart.js';
 
-const ResultBarChart = ({ data, beginsAtZero, id, height, width, redraw, maintainAspectRatio, yLabel }) => {
+const ResultBarChart = ({ data, beginsAtZero, id, height, width, redraw, maintainAspectRatio, yLabel, title }) => {
   if (!data) {
     return null;
   }
 
   const options = {
     maintainAspectRatio,
+    title: {
+      display: !!title,
+      text: title,
+      fontSize: 20
+    },
     scales: {
       yAxes: [
         {
@@ -44,7 +49,8 @@ ResultBarChart.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   redraw: PropTypes.bool,
   maintainAspectRatio: PropTypes.bool,
-  yLabel: PropTypes.string
+  yLabel: PropTypes.string,
+  title: PropTypes.string
 };
 
 ResultBarChart.defaultProps = {
@@ -55,7 +61,8 @@ ResultBarChart.defaultProps = {
   width: 300,
   redraw: false,
   maintainAspectRatio: true,
-  yLabel: null
+  yLabel: null,
+  title: null
 };
 
 export default ResultBarChart;

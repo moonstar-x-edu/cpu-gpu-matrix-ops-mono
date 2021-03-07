@@ -39,7 +39,7 @@ const Results = () => {
       {JSON.stringify(fetchError)}
       {
         allResults &&
-          <ResultBarChart data={parseResultsForBarChart(allResults[0].results, colors)} redraw yLabel="ms (lower is better)" />
+          <ResultBarChart data={parseResultsForBarChart(allResults[0].results, colors)} redraw yLabel="ms (lower is better)" title="Result" />
       }
     </Container>
   );
