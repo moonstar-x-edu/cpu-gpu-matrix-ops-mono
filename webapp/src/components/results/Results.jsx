@@ -1,17 +1,31 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ResultBarChart from '../common/resultBarChart';
 import AppContext from '../../context/AppContext';
+import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
+import { getAllResults } from '../../networking';
 
 const Results = () => {
   const { setActive } = useContext(AppContext);
+  const { allResults, setAllResults } = useContext(ResultsContext);
+  const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
     setActive(NAVBAR_ITEMS.results);
     updatePageTitle('Resultados');
-  }, [setActive]);
+
+    if (!allResults) {
+      getAllResults()
+        .then((results) => {
+          setAllResults(results);
+        })
+        .catch((error) => {
+          setFetchError(error);
+        });
+    }
+  }, [allResults, setActive, setAllResults]);
 
   const data = {
     labels: ['1', '2', '3', '4', '5', '6'],
@@ -37,6 +51,8 @@ const Results = () => {
   return (
     <Container className="results-content">
       RESULTS
+      {JSON.stringify(allResults)}
+      {JSON.stringify(fetchError)}
       <ResultBarChart data={data} redraw yLabel="ms (lower is better)" />
     </Container>
   );
