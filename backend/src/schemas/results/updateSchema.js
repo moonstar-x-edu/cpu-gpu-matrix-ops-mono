@@ -29,10 +29,10 @@ const updateSchema = Joi.object({
         .items(Joi.number().required())
         .required()
     })
-      .assert('cpu.length', Joi.ref('gpu.length'), 'GPU and CPU results must be of same size!')
+      .assert('.cpu.length', Joi.ref('gpu.length'), 'GPU and CPU results must be of same size!')
       .required()
   })
-    .assert('matrixSizes.length', Joi.ref('times.cpu.length'), 'matrixSizes and result times must be of same size!')
+    .assert('.matrixSizes.length', Joi.ref('times.cpu.length'), 'matrixSizes and result times must be of same size!')
 });
 
 module.exports = updateSchema;
