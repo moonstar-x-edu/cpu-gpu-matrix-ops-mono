@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import ResultBarChart from '../common/resultBarChart';
 import AppContext from '../../context/AppContext';
@@ -9,8 +9,7 @@ import { getAllResults } from '../../networking';
 
 const Results = () => {
   const { setActive } = useContext(AppContext);
-  const { allResults, setAllResults } = useContext(ResultsContext);
-  const [fetchError, setFetchError] = useState(null);
+  const { allResults, setAllResults, fetchError, setFetchError } = useContext(ResultsContext);
 
   useEffect(() => {
     setActive(NAVBAR_ITEMS.results);
@@ -25,7 +24,7 @@ const Results = () => {
           setFetchError(error);
         });
     }
-  }, [allResults, setActive, setAllResults]);
+  }, [allResults, setActive, setAllResults, setFetchError]);
 
   const data = {
     labels: ['1', '2', '3', '4', '5', '6'],

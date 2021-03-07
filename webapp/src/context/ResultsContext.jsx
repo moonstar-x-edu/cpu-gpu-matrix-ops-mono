@@ -6,12 +6,15 @@ const ResultsContext = React.createContext(null);
 export const ResultsContextProvider = ({ children }) => {
   const [allResults, setAllResults] = useState(null);
   const [currentResults, setCurrentResults] = useState(null);
+  const [fetchError, setFetchError] = useState(null);
 
   const context = {
     allResults,
     setAllResults,
     currentResults,
-    setCurrentResults
+    setCurrentResults,
+    fetchError,
+    setFetchError
   };
 
   return (
