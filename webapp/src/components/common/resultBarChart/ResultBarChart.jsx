@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { Bar } from '@reactchartjs/react-chart.js';
 
 const ResultBarChart = ({ data, beginsAtZero, id, height, width, redraw, maintainAspectRatio, yLabel }) => {
+  if (!data) {
+    return null;
+  }
+
   const options = {
     maintainAspectRatio,
     scales: {
@@ -27,13 +31,13 @@ const ResultBarChart = ({ data, beginsAtZero, id, height, width, redraw, maintai
 
 ResultBarChart.propTypes = {
   data: PropTypes.shape({
-    labels: PropTypes.arrayOf(PropTypes.string).isRequired,
+    labels: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
     datasets: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       data: PropTypes.arrayOf(PropTypes.number).isRequired,
       backgroundColor: PropTypes.string.isRequired
     })).isRequired
-  }).isRequired,
+  }),
   beginsAtZero: PropTypes.bool,
   id: PropTypes.string,
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -44,6 +48,7 @@ ResultBarChart.propTypes = {
 };
 
 ResultBarChart.defaultProps = {
+  data: null,
   beginsAtZero: true,
   id: null,
   height: 150,
