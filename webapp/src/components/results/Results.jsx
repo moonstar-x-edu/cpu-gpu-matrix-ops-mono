@@ -5,7 +5,13 @@ import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
+import { parseResultsForBarChart } from '../../utils/charting';
 import { getAllResults } from '../../networking';
+
+const colors = {
+  gpu: 'rgb(255, 99, 132)',
+  cpu: 'rgb(54, 162, 235)'
+};
 
 const Results = () => {
   const { setActive } = useContext(AppContext);
@@ -26,33 +32,15 @@ const Results = () => {
     }
   }, [allResults, setActive, setAllResults, setFetchError]);
 
-  const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
-    datasets: [
-      {
-        label: '# of Red Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: 'rgb(255, 99, 132)'
-      },
-      {
-        label: '# of Blue Votes',
-        data: [2, 3, 20, 5, 1, 4],
-        backgroundColor: 'rgb(54, 162, 235)'
-      },
-      {
-        label: '# of Green Votes',
-        data: [3, 10, 13, 15, 22, 30],
-        backgroundColor: 'rgb(75, 192, 192)'
-      }
-    ]
-  };
-
   return (
     <Container className="results-content">
       RESULTS
       {JSON.stringify(allResults)}
       {JSON.stringify(fetchError)}
-      <ResultBarChart data={data} redraw yLabel="ms (lower is better)" />
+      {
+        allResults &&
+          <ResultBarChart data={parseResultsForBarChart(allResults[0].results, colors)} redraw yLabel="ms (lower is better)" />
+      }
     </Container>
   );
 };
