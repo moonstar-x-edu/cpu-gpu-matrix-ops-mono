@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { Container } from 'react-bootstrap';
 import AppContext from '../../context/AppContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
@@ -12,9 +13,9 @@ const Benchmark = () => {
   }, [setActive]);
 
   return (
-    <div>
+    <Container className="benchmark-content">
       BENCHMARK
-    </div>
+    </Container>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Navbar as BSNavbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AppContext from '../../../context/AppContext';
-import { ROUTES, NAVBAR_ITEMS } from '../../../constants';
+import { ROUTES, NAVBAR_ITEMS, LINKS } from '../../../constants';
 
 const Navbar = () => {
   const { active } = useContext(AppContext);
@@ -34,6 +34,11 @@ const Navbar = () => {
               eventKey={NAVBAR_ITEMS.results}
             >
               Resultados
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href={LINKS.github}>
+              GitHub
             </Nav.Link>
           </Nav.Item>
         </Nav>
