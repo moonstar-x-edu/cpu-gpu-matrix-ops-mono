@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import ResultBarChart from '../common/resultBarChart';
+import LoadingSpinner from '../common/loadingSpinner';
 import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
@@ -38,7 +39,7 @@ const Results = () => {
   if (loading) {
     return (
       <Container className="results-content">
-        LOADING
+        <LoadingSpinner color="custom" loading={loading} />
       </Container>
     );
   }
