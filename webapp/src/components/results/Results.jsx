@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import ResultBarChart from '../common/resultBarChart';
 import LoadingSpinner from '../common/loadingSpinner';
+import AlertBox from '../common/alertBox';
 import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
@@ -36,7 +37,7 @@ const Results = () => {
     }
   }, [allResults, setActive, setAllResults, fetchError, setFetchError, loading, setLoading]);
 
-  if (loading) {
+  if (!allResults || loading) {
     return (
       <Container className="results-content">
         <LoadingSpinner color="custom" loading={loading} />
@@ -47,7 +48,15 @@ const Results = () => {
   if (fetchError) {
     return (
       <Container className="results-content">
-        ERROR FETCHING!
+        <AlertBox color="red" title="😢 Algo sucedió al comunicarse con el API de resultados..." text={[fetchError.message]} />
+      </Container>
+    );
+  }
+
+  if (allResults.length < 1) {
+    return (
+      <Container className="results-content">
+        <AlertBox color="yellow" title="😢 No hay resultados para mostrar." text={['Los datos todavía no han sido subidos a la base de datos. ¡Vuelve más pronto!']} />
       </Container>
     );
   }
