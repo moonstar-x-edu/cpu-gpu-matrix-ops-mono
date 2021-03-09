@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 
-const BenchmarkModal = ({ show, title, children, onCancel, onContinue }) => {
+const BenchmarkModal = ({ show, title, children, onCancel, onContinue, withCancel }) => {
   return (
-    <Modal show={show} onHide={onCancel}>
+    <Modal className="benchmark-modal" show={show} onHide={onCancel}>
       <Modal.Header closeButton>
         {
           title &&
@@ -17,9 +17,12 @@ const BenchmarkModal = ({ show, title, children, onCancel, onContinue }) => {
         {children}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onCancel}>
-          Cancelar
-        </Button>
+        {
+          withCancel &&
+            <Button variant="secondary" onClick={onCancel}>
+              Cancelar
+            </Button>
+        }
         <Button variant="primary" onClick={onContinue}>
           Continuar
         </Button>
@@ -36,14 +39,16 @@ BenchmarkModal.propTypes = {
     PropTypes.node
   ]),
   onCancel: PropTypes.func,
-  onContinue: PropTypes.func
+  onContinue: PropTypes.func,
+  withCancel: PropTypes.bool
 };
 
 BenchmarkModal.defaultProps = {
   title: null,
   children: null,
   onCancel: () => false,
-  onContinue: () => false
+  onContinue: () => false,
+  withCancel: true
 };
 
 export default BenchmarkModal;
