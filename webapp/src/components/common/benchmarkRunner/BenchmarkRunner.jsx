@@ -15,6 +15,7 @@ const BenchmarkRunner = ({ onTerminate }) => {
   const [running, setRunning] = useState(false);
   const [cpuTimes, setCPUTimes] = useState([]);
   const [gpuTimes, setGPUTimes] = useState([]);
+  const [benchmarkError, setBenchmarkError] = useState([]);
 
   function doBenchmark() {
     Promise.all(matrices.map(async(pair) => {
@@ -32,6 +33,9 @@ const BenchmarkRunner = ({ onTerminate }) => {
         }
 
         handleTerminate(cpu, gpu);
+      })
+      .catch((error) => {
+        handleBenchmarkError(error);
       });
   }
 
@@ -45,7 +49,7 @@ const BenchmarkRunner = ({ onTerminate }) => {
   }
 
   function handleContinue() {
-    if (currentModal < 2) {
+    if (currentModal < 3) {
       setCurrentModal(currentModal + 1);
     } else {
       setCurrentModal(0);
@@ -65,6 +69,12 @@ const BenchmarkRunner = ({ onTerminate }) => {
     setGPUTimes(gpu);
     setCurrentModal(2);
     onTerminate(cpu, gpu);
+  }
+
+  function handleBenchmarkError(error) {
+    setRunning(false);
+    setBenchmarkError(error);
+    setCurrentModal(3);
   }
 
   return (
@@ -97,6 +107,15 @@ const BenchmarkRunner = ({ onTerminate }) => {
                 matrixSizes={BENCHMARK.matrixSizes}
                 iterations={BENCHMARK.iterations}
               />
+            </div>
+          </BenchmarkModal>
+      }
+      {
+        currentModal === 3 &&
+          <BenchmarkModal disableButtons={running} title="Oops..." show={showModal} withCancel={false} onCancel={handleCancel} onContinue={handleContinue}>
+            <span>Hubo un error al realizar el benchmark:</span>
+            <div className="mt-2">
+              {benchmarkError.message}
             </div>
           </BenchmarkModal>
       }
