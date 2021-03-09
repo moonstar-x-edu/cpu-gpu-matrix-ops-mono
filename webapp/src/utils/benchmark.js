@@ -14,5 +14,5 @@ export const executionTime = (iterations, fn, args) => {
 
 export const BENCHMARK = {
   matrixSizes: [128, 256, 512],
-  iterations: 100
+  iterations: 150
 };
