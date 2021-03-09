@@ -1,0 +1,10 @@
+.benchmark-runner {
+  margin: $std-margin 0;
+  text-align: center;
+
+  .btn {
+    @media only screen and (max-width: $sm-breakpoint) {
+      width: 100%;
+    }
+  }
+}

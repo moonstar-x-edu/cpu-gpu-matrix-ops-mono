@@ -7,3 +7,7 @@ const endpoint = (path) => {
 export const getAllResults = () => {
   return axios.get(endpoint('/results')).then((response) => response.data.data);
 };
+
+export const postResult = (data) => {
+  return axios.post(endpoint('/result'), data).then((response) => response.data.data);
+};

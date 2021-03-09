@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 @import './variables.scss';
+@import './mixins.scss';
 @import './global.scss';
 
 @import '../components/common/navbar/';
@@ -9,6 +10,10 @@
 @import '../components/common/resultsDropdown/';
 @import '../components/common/sectionHeader/';
 @import '../components/common/resultBarChart/';
+@import '../components/common/benchmarkForm/';
+@import '../components/common/benchmarkRunner/';
+@import '../components/common/benchmarkModal/';
+@import '../components/common/uploadToast/';
 
 @import '../components/results';
 @import '../components/benchmark';

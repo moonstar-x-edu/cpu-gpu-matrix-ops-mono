@@ -1,0 +1,14 @@
+.benchmark-modal {
+
+  .modal-dialog {
+
+    .modal-body {
+      position: relative;
+      min-height: 100px;
+
+      .loading-spinner {
+        padding: $std-margin-double 0;
+      }
+    }
+  }
+}

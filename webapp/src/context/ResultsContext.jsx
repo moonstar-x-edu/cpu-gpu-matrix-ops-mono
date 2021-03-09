@@ -8,6 +8,7 @@ export const ResultsContextProvider = ({ children }) => {
   const [currentResult, setCurrentResult] = useState(null);
   const [fetchError, setFetchError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [shouldFetch, setShouldFetch] = useState(true);
 
   const context = {
     allResults,
@@ -17,7 +18,9 @@ export const ResultsContextProvider = ({ children }) => {
     fetchError,
     setFetchError,
     loading,
-    setLoading
+    setLoading,
+    shouldFetch,
+    setShouldFetch
   };
 
   return (

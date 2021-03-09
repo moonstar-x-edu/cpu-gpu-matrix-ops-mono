@@ -1,22 +1,7 @@
 .results-dropdown {
   width: 100%;
 
-  .btn {
-    background-color: $navbar-bg;
-    border-color: $navbar-bg;
-    padding-right: $std-margin-double;
-    padding-left: $std-margin-double;
-
-    &:hover, &:not(:disabled):not(.disabled):active, &:focus {
-      background-color: $navbar-bg-alt;
-      border-color: $navbar-bg-alt;
-    }
-  }
-
-  &.show {
-    .dropdown-toggle.btn-primary {
-      background-color: $navbar-bg-alt;
-      border-color: $navbar-bg-alt;
-    }
+  button {
+    @include add-custom-button-styles();
   }
 }
