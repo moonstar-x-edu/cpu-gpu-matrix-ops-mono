@@ -9,6 +9,7 @@ const ResultBarChart = ({ data, beginsAtZero, id, height, width, redraw, maintai
 
   const options = {
     maintainAspectRatio,
+    responsive: true,
     title: {
       display: !!title,
       text: title,
@@ -30,7 +31,9 @@ const ResultBarChart = ({ data, beginsAtZero, id, height, width, redraw, maintai
   };
 
   return (
-    <Bar data={data} options={options} id={id} height={height} width={width} redraw={redraw} />
+    <div className="result-bar-chart">
+      <Bar data={data} options={options} id={id} height={height} width={width} redraw={redraw} />
+    </div>
   );
 };
 
@@ -57,10 +60,10 @@ ResultBarChart.defaultProps = {
   data: null,
   beginsAtZero: true,
   id: null,
-  height: 150,
-  width: 300,
+  height: null,
+  width: null,
   redraw: false,
-  maintainAspectRatio: true,
+  maintainAspectRatio: false,
   yLabel: null,
   title: null
 };
