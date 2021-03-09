@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 
-const BenchmarkModal = ({ show, title, children, onCancel, onContinue, withCancel }) => {
+const BenchmarkModal = ({ show, title, children, onCancel, onContinue, withCancel, disableButtons }) => {
   return (
-    <Modal className="benchmark-modal" show={show} onHide={onCancel}>
-      <Modal.Header closeButton>
+    <Modal className="benchmark-modal" show={show} onHide={onCancel} backdrop="static" keyboard={false}>
+      <Modal.Header closeButton={!disableButtons}>
         {
           title &&
             <Modal.Title>
@@ -19,11 +19,11 @@ const BenchmarkModal = ({ show, title, children, onCancel, onContinue, withCance
       <Modal.Footer>
         {
           withCancel &&
-            <Button variant="secondary" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel} disabled={disableButtons}>
               Cancelar
             </Button>
         }
-        <Button variant="primary" onClick={onContinue}>
+        <Button variant="primary" onClick={onContinue} disabled={disableButtons}>
           Continuar
         </Button>
       </Modal.Footer>
@@ -40,7 +40,8 @@ BenchmarkModal.propTypes = {
   ]),
   onCancel: PropTypes.func,
   onContinue: PropTypes.func,
-  withCancel: PropTypes.bool
+  withCancel: PropTypes.bool,
+  disableButtons: PropTypes.bool
 };
 
 BenchmarkModal.defaultProps = {
@@ -48,7 +49,8 @@ BenchmarkModal.defaultProps = {
   children: null,
   onCancel: () => false,
   onContinue: () => false,
-  withCancel: true
+  withCancel: true,
+  disableButtons: false
 };
 
 export default BenchmarkModal;

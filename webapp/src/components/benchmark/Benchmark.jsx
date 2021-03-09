@@ -32,12 +32,16 @@ const Benchmark = () => {
     setForm({ ...form, [prop]: value });
   }
 
+  function handleBenchmarkTermination(cpuTimes, gpuTimes) {
+    console.log(cpuTimes, gpuTimes);
+  }
+
   return (
     <Container className="benchmark-content">
       <SectionHeader first text="Benchmark" />
       <SharedInfoDisclosure gpu={gpuInfo} ua={UA} />
       <BenchmarkForm form={form} onChange={handleFormChange} />
-      <BenchmarkRunner />
+      <BenchmarkRunner onTerminate={handleBenchmarkTermination} />
     </Container>
   );
 };
