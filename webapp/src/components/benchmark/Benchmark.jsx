@@ -12,6 +12,7 @@ import { getUA } from '../../utils/ua';
 const Benchmark = () => {
   const [gpuInfo, setGPUInfo] = useState(null);
   const [UA, setUA] = useState(null);
+  const [form, setForm] = useState({ name: '' });
   const { setActive } = useContext(AppContext);
 
   useEffect(() => {
@@ -26,11 +27,15 @@ const Benchmark = () => {
     }
   }, [setActive, gpuInfo, UA]);
 
+  function handleFormChange(prop, value) {
+    setForm({ ...form, [prop]: value });
+  }
+
   return (
     <Container className="benchmark-content">
       <SectionHeader first text="Benchmark" />
       <SharedInfoDisclosure gpu={gpuInfo} ua={UA} />
-      <BenchmarkForm />
+      <BenchmarkForm form={form} onChange={handleFormChange} />
     </Container>
   );
 };
