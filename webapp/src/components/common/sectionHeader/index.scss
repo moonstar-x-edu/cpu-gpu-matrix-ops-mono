@@ -1,0 +1,11 @@
+.section-header {
+
+}
+.section-header {
+  margin: $std-margin-double 0 $std-margin 0;
+  border-bottom: $navbar-bg solid 1px;
+
+  &.first-section {
+    margin-top: -$std-margin-half;
+  }
+}
