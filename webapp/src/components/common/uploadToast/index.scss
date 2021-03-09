@@ -1,0 +1,13 @@
+.upload-toast {
+  position: fixed;
+  right: $std-margin;
+  bottom: $std-margin;
+  z-index: 1000;
+}
+
+@media (max-width: $sm-breakpoint) {
+  .upload-toast {
+    right: $std-margin-half;
+    bottom: $std-margin-half;
+  }
+}

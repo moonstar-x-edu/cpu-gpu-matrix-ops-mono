@@ -20,7 +20,7 @@ const UploadToast = ({ error, show, delay, onClose, autoHide }) => {
   }
 
   return (
-    <Toast onClose={onClose} show={show} delay={delay} autohide={autoHide}>
+    <Toast className="upload-toast" onClose={onClose} show={show} delay={delay} autohide={autoHide}>
       <Toast.Header>
         <strong className="mr-auto">
           ¡Gracias por tu aporte!
