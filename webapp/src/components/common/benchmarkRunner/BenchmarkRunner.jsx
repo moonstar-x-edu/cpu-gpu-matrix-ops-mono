@@ -49,7 +49,7 @@ const BenchmarkRunner = ({ onTerminate }) => {
   }
 
   function handleContinue() {
-    if (currentModal < 3) {
+    if (currentModal < 2) {
       setCurrentModal(currentModal + 1);
     } else {
       setCurrentModal(0);
