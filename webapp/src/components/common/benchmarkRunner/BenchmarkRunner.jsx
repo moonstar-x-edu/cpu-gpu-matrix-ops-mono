@@ -5,12 +5,9 @@ import BenchmarkModal from '../benchmarkModal';
 import BenchmarkResultsList from '../benchmarkResultsList';
 import LoadingSpinner from '../loadingSpinner';
 import { generateMatrices, multiplyMatrixCPU, multiplyMatrixGPU } from '../../../utils/matrix';
-import { executionTime } from '../../../utils/benchmark';
+import { executionTime, BENCHMARK } from '../../../utils/benchmark';
 
-const ITERATIONS = 100;
-const MATRIX_SIZES = [128, 256, 512];
-
-const matrices = MATRIX_SIZES.map((size) => generateMatrices(size));
+const matrices = BENCHMARK.matrixSizes.map((size) => generateMatrices(size));
 
 const BenchmarkRunner = ({ onTerminate }) => {
   const [showModal, setShowModal] = useState(false);
@@ -21,8 +18,8 @@ const BenchmarkRunner = ({ onTerminate }) => {
 
   function doBenchmark() {
     Promise.all(matrices.map(async(pair) => {
-      const cpuTime = await executionTime(ITERATIONS, multiplyMatrixCPU, pair);
-      const gpuTime = await executionTime(ITERATIONS, multiplyMatrixGPU(pair[0].length), pair);
+      const cpuTime = await executionTime(BENCHMARK.iterations, multiplyMatrixCPU, pair);
+      const gpuTime = await executionTime(BENCHMARK.iterations, multiplyMatrixGPU(pair[0].length), pair);
       return [cpuTime, gpuTime];
     }))
       .then((times) => {
@@ -97,8 +94,8 @@ const BenchmarkRunner = ({ onTerminate }) => {
               <BenchmarkResultsList
                 cpuTimes={cpuTimes}
                 gpuTimes={gpuTimes}
-                matrixSizes={MATRIX_SIZES}
-                iterations={ITERATIONS}
+                matrixSizes={BENCHMARK.matrixSizes}
+                iterations={BENCHMARK.iterations}
               />
             </div>
           </BenchmarkModal>
