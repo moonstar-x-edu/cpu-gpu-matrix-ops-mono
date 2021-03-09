@@ -69,7 +69,7 @@ const BenchmarkRunner = ({ onTerminate }) => {
 
   return (
     <div className="benchmark-runner">
-      <Button variant="dark" className="custom-button" onClick={handleShowModal}>
+      <Button variant="primary" className="custom-button" onClick={handleShowModal}>
         Iniciar Benchmark
       </Button>
       {
