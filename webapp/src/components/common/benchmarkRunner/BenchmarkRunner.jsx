@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import BenchmarkModal from '../benchmarkModal';
+import BenchmarkResultsList from '../benchmarkResultsList';
 import LoadingSpinner from '../loadingSpinner';
 import { generateMatrices, multiplyMatrixCPU, multiplyMatrixGPU } from '../../../utils/matrix';
 import { executionTime } from '../../../utils/benchmark';
@@ -90,9 +91,16 @@ const BenchmarkRunner = ({ onTerminate }) => {
       {
         currentModal === 2 &&
           <BenchmarkModal disableButtons={running} title="¡Terminado!" show={showModal} withCancel={false} onCancel={handleCancel} onContinue={handleContinue}>
-            FINISHED
-            CPU: {cpuTimes}
-            GPU: {gpuTimes}
+            <span>¡El Benchmark ha terminado, gracias por tu aporte!</span>
+            <div className="mt-2">
+              <span className="font-weight-bold">Tus Resultados:</span>
+              <BenchmarkResultsList
+                cpuTimes={cpuTimes}
+                gpuTimes={gpuTimes}
+                matrixSizes={MATRIX_SIZES}
+                iterations={ITERATIONS}
+              />
+            </div>
           </BenchmarkModal>
       }
     </div>
