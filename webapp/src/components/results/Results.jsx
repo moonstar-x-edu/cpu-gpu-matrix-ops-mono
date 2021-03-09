@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-parens */
 import React, { useContext, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import ResultBarChart from '../common/resultBarChart';
@@ -27,26 +28,40 @@ const Results = () => {
     loading,
     setLoading,
     currentResult,
-    setCurrentResult
+    setCurrentResult,
+    shouldFetch,
+    setShouldFetch
   } = useContext(ResultsContext);
 
   useEffect(() => {
     setActive(NAVBAR_ITEMS.results);
     updatePageTitle('Resultados');
 
-    if (!allResults && !fetchError && !loading) {
+    if (shouldFetch || (!allResults && !fetchError && !loading)) {
       setLoading(true);
       getAllResults()
         .then((results) => {
           setAllResults(results);
           setLoading(false);
+          setShouldFetch(false);
         })
         .catch((error) => {
           setFetchError(error);
           setLoading(false);
+          setShouldFetch(false);
         });
     }
-  }, [allResults, setActive, setAllResults, fetchError, setFetchError, loading, setLoading]);
+  }, [
+    allResults,
+    setActive,
+    setAllResults,
+    fetchError,
+    setFetchError,
+    loading,
+    setLoading,
+    shouldFetch,
+    setShouldFetch
+  ]);
 
   function handleDropdownSelect(id) {
     setCurrentResult(allResults.find((res) => res.id === id));

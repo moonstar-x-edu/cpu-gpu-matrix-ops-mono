@@ -6,6 +6,7 @@ import BenchmarkForm from '../common/benchmarkForm';
 import BenchmarkRunner from '../common/benchmarkRunner';
 import UploadToast from '../common/uploadToast';
 import AppContext from '../../context/AppContext';
+import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { postResult } from '../../networking';
 import { updatePageTitle } from '../../utils/page';
@@ -20,6 +21,7 @@ const Benchmark = () => {
   const [showToast, setShowToast] = useState(false);
   const [postError, setPostError] = useState(null);
   const { setActive } = useContext(AppContext);
+  const { setShouldFetch } = useContext(ResultsContext);
 
   useEffect(() => {
     setActive(NAVBAR_ITEMS.benchmark);
@@ -54,10 +56,12 @@ const Benchmark = () => {
     postResult(data)
       .then(() => {
         setShowToast(true);
+        setShouldFetch(true);
       })
       .catch((error) => {
         setPostError(error);
         setShowToast(true);
+        setShouldFetch(true);
       });
   }
 
