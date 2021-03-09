@@ -4,6 +4,7 @@ import ResultBarChart from '../common/resultBarChart';
 import LoadingSpinner from '../common/loadingSpinner';
 import AlertBox from '../common/alertBox';
 import ResultsDropdown from '../common/resultsDropdown';
+import SectionHeader from '../common/sectionHeader';
 import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
@@ -77,6 +78,7 @@ const Results = () => {
 
   return (
     <Container className="results-content">
+      <SectionHeader first text="Resultados Individuales" />
       <ResultsDropdown results={allResults} onSelect={handleDropdownSelect} />
       {
         currentResult &&
