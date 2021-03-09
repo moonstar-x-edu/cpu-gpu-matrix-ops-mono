@@ -19,7 +19,7 @@ const ResultsDropdown = ({ results, onSelect, className }) => {
   }
 
   return (
-    <DropdownButton className={`results-dropdown ${className}`.trim()} as={ButtonGroup} id="results-dropdown-group" title="Selecciona un resultado" menuRole="results-picker" variant="dark">
+    <DropdownButton className={`results-dropdown ${className}`.trim()} as={ButtonGroup} id="results-dropdown-group" title="Selecciona un resultado" menuRole="results-picker" variant="primary">
       <FormControl className="mx-3 my-2 w-auto" placeholder="Buscar" onChange={handleFilter} value={filtered} />
       {
         results
