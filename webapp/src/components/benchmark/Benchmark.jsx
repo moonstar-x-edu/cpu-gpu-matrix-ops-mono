@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import SectionHeader from '../common/sectionHeader';
 import SharedInfoDisclosure from '../common/sharedInfoDisclosure';
 import BenchmarkForm from '../common/benchmarkForm';
+import BenchmarkRunner from '../common/benchmarkRunner';
 import AppContext from '../../context/AppContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
@@ -36,6 +37,7 @@ const Benchmark = () => {
       <SectionHeader first text="Benchmark" />
       <SharedInfoDisclosure gpu={gpuInfo} ua={UA} />
       <BenchmarkForm form={form} onChange={handleFormChange} />
+      <BenchmarkRunner />
     </Container>
   );
 };
