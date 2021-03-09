@@ -27,12 +27,6 @@ html body {
   }
 }
 
-.btn.button-regular {
-  background-color: $navbar-bg;
-  border-color: $navbar-bg;
-
-  &:hover, &:not(:disabled):not(.disabled):active, &:focus {
-    background-color: $navbar-bg-alt;
-    border-color: $navbar-bg-alt;
-  }
+button.btn.custom-button {
+  @include add-custom-button-styles();
 }
