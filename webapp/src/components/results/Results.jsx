@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import ResultBarChart from '../common/resultBarChart';
 import LoadingSpinner from '../common/loadingSpinner';
 import AlertBox from '../common/alertBox';
+import ResultsDropdown from '../common/resultsDropdown';
 import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
@@ -17,7 +18,16 @@ const colors = {
 
 const Results = () => {
   const { setActive } = useContext(AppContext);
-  const { allResults, setAllResults, fetchError, setFetchError, loading, setLoading } = useContext(ResultsContext);
+  const {
+    allResults,
+    setAllResults,
+    fetchError,
+    setFetchError,
+    loading,
+    setLoading,
+    currentResult,
+    setCurrentResult
+  } = useContext(ResultsContext);
 
   useEffect(() => {
     setActive(NAVBAR_ITEMS.results);
@@ -36,6 +46,10 @@ const Results = () => {
         });
     }
   }, [allResults, setActive, setAllResults, fetchError, setFetchError, loading, setLoading]);
+
+  function handleDropdownSelect(id) {
+    setCurrentResult(allResults.find((res) => res.id === id));
+  }
 
   if (!allResults || loading) {
     return (
@@ -63,12 +77,10 @@ const Results = () => {
 
   return (
     <Container className="results-content">
-      RESULTS
-      {JSON.stringify(allResults)}
-      {JSON.stringify(fetchError)}
+      <ResultsDropdown results={allResults} onSelect={handleDropdownSelect} />
       {
-        allResults &&
-          <ResultBarChart data={parseResultsForBarChart(allResults[0].results, colors)} redraw yLabel="ms (lower is better)" title="Result" />
+        currentResult &&
+          <ResultBarChart data={parseResultsForBarChart(currentResult.results, colors)} redraw yLabel="ms (menor es mejor)" title={currentResult.gpuInfo.renderer} />
       }
     </Container>
   );
