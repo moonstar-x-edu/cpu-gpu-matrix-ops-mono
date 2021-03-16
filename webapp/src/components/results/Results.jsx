@@ -98,7 +98,13 @@ const Results = () => {
       <ResultsDropdown results={allResults} onSelect={handleDropdownSelect} />
       {
         currentResult &&
-          <ResultBarChart data={parseResultsForBarChart(currentResult.results, colors)} redraw yLabel="ms (menor es mejor)" title={currentResult.gpuInfo.renderer} />
+          <ResultBarChart
+            data={parseResultsForBarChart(currentResult.results, colors)}
+            redraw
+            yLabel="ms (menor es mejor)"
+            xLabel={currentResult.ua}
+            title={`${currentResult.gpuInfo.renderer} (x${currentResult.results.iterations})`}
+          />
       }
     </Container>
   );
