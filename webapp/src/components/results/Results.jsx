@@ -37,8 +37,9 @@ const Results = () => {
     setActive(NAVBAR_ITEMS.results);
     updatePageTitle('Resultados');
 
-    if (shouldFetch || (!allResults && !fetchError && !loading)) {
+    if (shouldFetch) {
       setLoading(true);
+      setShouldFetch(false);
       getAllResultsFromEveryone()
         .then((results) => {
           setAllResults(results);
