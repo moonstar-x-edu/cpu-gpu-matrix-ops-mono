@@ -11,7 +11,7 @@ import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
 import { parseResultsForBarChart } from '../../utils/charting';
-import { getAllResults } from '../../networking';
+import { getAllResultsFromEveryone } from '../../networking';
 
 const colors = {
   gpu: 'rgb(255, 99, 132)',
@@ -39,7 +39,7 @@ const Results = () => {
 
     if (shouldFetch || (!allResults && !fetchError && !loading)) {
       setLoading(true);
-      getAllResults()
+      getAllResultsFromEveryone()
         .then((results) => {
           setAllResults(results);
           setLoading(false);
@@ -67,18 +67,18 @@ const Results = () => {
     setCurrentResult(allResults.find((res) => res.id === id));
   }
 
-  if (!allResults || loading) {
-    return (
-      <Container className="results-content">
-        <LoadingSpinner color="custom" loading={loading} />
-      </Container>
-    );
-  }
-
   if (fetchError) {
     return (
       <Container className="results-content">
         <AlertBox color="red" title="😢 Algo sucedió al comunicarse con el API de resultados..." text={[fetchError.message]} />
+      </Container>
+    );
+  }
+
+  if (!allResults || loading) {
+    return (
+      <Container className="results-content">
+        <LoadingSpinner color="custom" loading={loading} />
       </Container>
     );
   }

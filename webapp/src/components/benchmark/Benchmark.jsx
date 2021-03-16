@@ -8,7 +8,7 @@ import UploadToast from '../common/uploadToast';
 import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
-import { postResult } from '../../networking';
+import { postResultForEveryone } from '../../networking';
 import { updatePageTitle } from '../../utils/page';
 import { getGPUInfo } from '../../utils/gpu';
 import { getUA } from '../../utils/ua';
@@ -46,6 +46,7 @@ const Benchmark = () => {
       gpuInfo,
       results: {
         matrixSizes: BENCHMARK.matrixSizes,
+        iterations: BENCHMARK.iterations,
         times: {
           cpu: cpuTimes,
           gpu: gpuTimes
@@ -53,7 +54,7 @@ const Benchmark = () => {
       }
     };
 
-    postResult(data)
+    postResultForEveryone(data)
       .then(() => {
         setShowToast(true);
         setShouldFetch(true);
