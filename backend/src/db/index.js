@@ -34,6 +34,7 @@ const createResult = async(type, data) => {
 
   const id = uuid();
   data.id = id;
+  data.type = type;
 
   await results.set(id, data);
 
