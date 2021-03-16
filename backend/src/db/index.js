@@ -64,9 +64,7 @@ const getAllResults = async(type) => {
   return Promise.all(entries.map((entry) => getResult(entry)));
 };
 
-const deleteResult = async(type, id) => {
-  validateType(type);
-
+const deleteResult = async(id) => {
   const data = await results.get(id);
   const deleted = await results.delete(id);
 
@@ -74,9 +72,9 @@ const deleteResult = async(type, id) => {
     throw new KeyNotFoundError(`Result entry for ${id} does not exist!`);
   }
 
-  const entries = await resultEntries.get(`entries-${type}`);
+  const entries = await resultEntries.get(`entries-${data.type}`);
   const newEntries = entries.filter((entry) => entry !== id);
-  await resultEntries.set(`entries-${type}`, newEntries);
+  await resultEntries.set(`entries-${data.type}`, newEntries);
 
   return data;
 };

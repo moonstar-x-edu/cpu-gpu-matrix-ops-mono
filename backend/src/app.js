@@ -3,8 +3,6 @@ const express = require('express');
 const logger = require('@greencoast/logger');
 const { allowCORS, onlySupportedMethods, handleError, logRequests } = require('./middleware');
 const resultsRouter = require('./api/results');
-const anyResultsRouter = require('./api/anyResults');
-const { RESULT_TYPES } = require('./db');
 const { HTTP_CODES } = require('./constants');
 const { generateResponse } = require('./utils');
 
@@ -14,14 +12,7 @@ const app = express();
 app.use(allowCORS);
 app.use(logRequests);
 
-RESULT_TYPES.forEach((type) => {
-  app.use(`/${type}`, (req, _, next) => {
-    req.resultType = type;
-    next();
-  }, resultsRouter);
-});
-
-app.use('/', anyResultsRouter);
+app.use('/', resultsRouter);
 
 app.get('/', (req, res) => {
   res.status(HTTP_CODES.OK).send(generateResponse(HTTP_CODES.OK, 'It works!'));
