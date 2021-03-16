@@ -3,6 +3,8 @@ const Joi = require('joi');
 const createSchema = Joi.object({
   id: Joi.string()
     .forbidden(),
+  type: Joi.string()
+    .forbidden(),
   ua: Joi.string()
     .trim()
     .required(),
@@ -23,6 +25,8 @@ const createSchema = Joi.object({
   results: Joi.object({
     matrixSizes: Joi.array()
       .items(Joi.number().required())
+      .required(),
+    iterations: Joi.number()
       .required(),
     times: Joi.object({
       cpu: Joi.array()

@@ -20,13 +20,19 @@ const prepareDatabaseFileSync = () => {
   }
 };
 
-const prepareResultEntries = async(resultEntries) => {
-  const entries = await resultEntries.get('entries');
-  if (!entries) {
-    logger.warn('Result entries namespace not initialized! Initializing with an empty array...');
-    await resultEntries.set('entries', []);
-    logger.info('Initialized result entries namespace.');
-  }
+const prepareResultEntries = async(resultEntries, entryTypes) => {
+  return Promise.all(entryTypes.map((type) => {
+    return resultEntries.get(`entries-${type}`)
+      .then((entries) => {
+        if (!entries) {
+          logger.warn(`Result entries-${type} namespace not initialized! Initializing with an empty array...`);
+          return resultEntries.set(`entries-${type}`, [])
+            .then(() => {
+              logger.info(`Initialized result entries-${type} namespace.`);
+            });
+        }
+      });
+  }));
 };
 
 module.exports = {

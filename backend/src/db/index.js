@@ -2,7 +2,9 @@ const Keyv = require('keyv');
 const logger = require('@greencoast/logger');
 const { v4: uuid } = require('uuid');
 const { dbURI, prepareDatabaseFileSync, prepareResultEntries } = require('./prepare');
-const { KeyNotFoundError } = require('../errors');
+const { KeyNotFoundError, InvalidTypeError } = require('../errors');
+
+const RESULT_TYPES = ['everyone', 'particular'];
 
 prepareDatabaseFileSync();
 
@@ -19,17 +21,26 @@ resultEntries.on('error', (error) => {
   logger.error(error);
 });
 
-prepareResultEntries(resultEntries);
+prepareResultEntries(resultEntries, RESULT_TYPES);
 
-const createResult = async(data) => {
+const validateType = (type) => {
+  if (!RESULT_TYPES.includes(type)) {
+    throw new InvalidTypeError(`Results type ${type} is invalid!`);
+  }
+};
+
+const createResult = async(type, data) => {
+  validateType(type);
+
   const id = uuid();
   data.id = id;
+  data.type = type;
 
   await results.set(id, data);
 
-  const entries = await resultEntries.get('entries');
+  const entries = await resultEntries.get(`entries-${type}`);
   entries.push(id);
-  await resultEntries.set('entries', entries);
+  await resultEntries.set(`entries-${type}`, entries);
 
   return data;
 };
@@ -45,8 +56,10 @@ const getResult = (id) => {
     });
 };
 
-const getAllResults = async() => {
-  const entries = await resultEntries.get('entries');
+const getAllResults = async(type) => {
+  validateType(type);
+
+  const entries = await resultEntries.get(`entries-${type}`);
 
   return Promise.all(entries.map((entry) => getResult(entry)));
 };
@@ -59,9 +72,9 @@ const deleteResult = async(id) => {
     throw new KeyNotFoundError(`Result entry for ${id} does not exist!`);
   }
 
-  const entries = await resultEntries.get('entries');
+  const entries = await resultEntries.get(`entries-${data.type}`);
   const newEntries = entries.filter((entry) => entry !== id);
-  await resultEntries.set('entries', newEntries);
+  await resultEntries.set(`entries-${data.type}`, newEntries);
 
   return data;
 };
@@ -80,6 +93,7 @@ const updateResult = async(id, newData) => {
 };
 
 module.exports = {
+  RESULT_TYPES,
   db: {
     results,
     resultEntries,
