@@ -44,9 +44,9 @@ npm start
 
 ## Documentación
 
-### GET /results
+### GET /results/everyone
 
-Obten un arreglo con todos los resultados disponibles en la base de datos.
+Obten un arreglo con todos los resultados de todos, disponibles en la base de datos.
 
 #### Respuesta
 
@@ -68,6 +68,7 @@ Obten un arreglo con todos los resultados disponibles en la base de datos.
           256,
           512
         ],
+        "iterations": 10,
         "times": {
           "cpu": [
             495,
@@ -81,7 +82,8 @@ Obten un arreglo con todos los resultados disponibles en la base de datos.
           ]
         }
       },
-      "id": "2a61c0fd-5fb8-4445-bcd0-97239b137198"
+      "id": "2a61c0fd-5fb8-4445-bcd0-97239b137198",
+      "type": "everyone"
     },
     {
       "name": "Christian x2",
@@ -96,6 +98,7 @@ Obten un arreglo con todos los resultados disponibles en la base de datos.
           256,
           512
         ],
+        "iterations": 10,
         "times": {
           "cpu": [
             697,
@@ -109,7 +112,83 @@ Obten un arreglo con todos los resultados disponibles en la base de datos.
           ]
         }
       },
-      "id": "c06b08a4-9c51-4f95-97d8-3903e10e093f"
+      "id": "c06b08a4-9c51-4f95-97d8-3903e10e093f",
+      "type": "everyone"
+    }
+  ]
+}
+```
+
+### GET /results/particular
+
+Obten un arreglo con todos los resultados particulares, disponibles en la base de datos.
+
+#### Respuesta
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": [
+    {
+      "name": "Christian",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36",
+      "gpuInfo": {
+        "vendor": "NVIDIA Corporation",
+        "renderer": "NVIDIA GeForce GT 750M OpenGL Engine"
+      },
+      "results": {
+        "matrixSizes": [
+          128,
+          256,
+          512
+        ],
+        "iterations": 10,
+        "times": {
+          "cpu": [
+            495,
+            5342,
+            53075
+          ],
+          "gpu": [
+            1291,
+            3508,
+            15138
+          ]
+        }
+      },
+      "id": "2a61c0fd-5fb8-4445-bcd0-97239b137198",
+      "type": "particular"
+    },
+    {
+      "name": "Christian x2",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36",
+      "gpuInfo": {
+        "vendor": "NVIDIA Corporation",
+        "renderer": "NVIDIA GeForce GT 750M OpenGL Engine"
+      },
+      "results": {
+        "matrixSizes": [
+          128,
+          256,
+          512
+        ],
+        "iterations": 10,
+        "times": {
+          "cpu": [
+            697,
+            7704,
+            78607
+          ],
+          "gpu": [
+            1569,
+            4324,
+            20150
+          ]
+        }
+      },
+      "id": "c06b08a4-9c51-4f95-97d8-3903e10e093f",
+      "type": "particular"
     }
   ]
 }
@@ -117,7 +196,7 @@ Obten un arreglo con todos los resultados disponibles en la base de datos.
 
 ### GET /result/:id
 
-Obten un resultado de ID particular.
+Obten un resultado de ID específico.
 
 #### Respuesta
 
@@ -138,6 +217,7 @@ Obten un resultado de ID particular.
         256,
         512
       ],
+      "iterations": 10,
       "times": {
         "cpu": [
           495,
@@ -151,14 +231,15 @@ Obten un resultado de ID particular.
         ]
       }
     },
-    "id": "2a61c0fd-5fb8-4445-bcd0-97239b137198"
+    "id": "2a61c0fd-5fb8-4445-bcd0-97239b137198",
+    "type": "everyone"
   }
 }
 ```
 
-### POST /result
+### POST /results/everyone
 
-Crea un nuevo resultado. Necesita un `application/json` body con la siguiente forma:
+Crea un nuevo resultado de todos. Necesita un `application/json` body con la siguiente forma:
 
 ```json
 {
@@ -170,6 +251,7 @@ Crea un nuevo resultado. Necesita un `application/json` body con la siguiente fo
   },
   "results": {
     "matrixSizes": <number[]>,
+    "iterations": <number>,
     "times": {
       "cpu": <number[]>,
       "gpu": <number[]>
@@ -197,6 +279,7 @@ Crea un nuevo resultado. Necesita un `application/json` body con la siguiente fo
         123,
         123
       ],
+      "iterations": 10,
       "times": {
         "cpu": [
           123,
@@ -210,14 +293,77 @@ Crea un nuevo resultado. Necesita un `application/json` body con la siguiente fo
         ]
       }
     },
-    "id": "cfaa8e19-03c1-43a1-9369-53a20df09e39"
+    "id": "cfaa8e19-03c1-43a1-9369-53a20df09e39",
+    "type": "everyone"
+  }
+}
+```
+
+### POST /results/particular
+
+Crea un nuevo resultado particular. Necesita un `application/json` body con la siguiente forma:
+
+```json
+{
+  "name": <string?>,
+  "ua": <string>,
+  "gpuInfo": {
+    "vendor": <string>,
+    "renderer": <string>
+  },
+  "results": {
+    "matrixSizes": <number[]>,
+    "iterations": <number>,
+    "times": {
+      "cpu": <number[]>,
+      "gpu": <number[]>
+    }
+  }
+}
+```
+
+#### Respuesta
+
+```json
+{
+  "success": true,
+  "status": 201,
+  "data": {
+    "name": null,
+    "ua": "User-Agent",
+    "gpuInfo": {
+      "vendor": "GPU-VENDOR",
+      "renderer": "GPU-RENDERER"
+    },
+    "results": {
+      "matrixSizes": [
+        128,
+        123,
+        123
+      ],
+      "iterations": 10,
+      "times": {
+        "cpu": [
+          123,
+          123,
+          123
+        ],
+        "gpu": [
+          123,
+          123,
+          123
+        ]
+      }
+    },
+    "id": "cfaa8e19-03c1-43a1-9369-53a20df09e39",
+    "type": "particular"
   }
 }
 ```
 
 ### DELETE /result/:id
 
-Elimina un resultado con ID particular.
+Elimina un resultado con ID específico.
 
 #### Respuesta
 
@@ -238,6 +384,7 @@ Elimina un resultado con ID particular.
         123,
         123
       ],
+      "iterations": 10,
       "times": {
         "cpu": [
           123,
@@ -251,14 +398,15 @@ Elimina un resultado con ID particular.
         ]
       }
     },
-    "id": "cfaa8e19-03c1-43a1-9369-53a20df09e39"
+    "id": "cfaa8e19-03c1-43a1-9369-53a20df09e39",
+    "type": "everyone"
   }
 }
 ```
 
 ### PUT /result/:id
 
-Actualiza las propiedades de un resultado con ID particular. Necesita un `application/json` body con las propiedades que se quieran actualizar.
+Actualiza las propiedades de un resultado con ID específico. Necesita un `application/json` body con las propiedades que se quieran actualizar.
 
 ```json
 {
@@ -270,6 +418,7 @@ Actualiza las propiedades de un resultado con ID particular. Necesita un `applic
   },
   "?results": {
     "matrixSizes": <number[]>,
+    "iterations": <number>,
     "times": {
       "cpu": <number[]>,
       "gpu": <number[]>
@@ -297,6 +446,7 @@ Actualiza las propiedades de un resultado con ID particular. Necesita un `applic
         256,
         23
       ],
+      "iterations": 10,
       "times": {
         "cpu": [
           123,
@@ -310,7 +460,8 @@ Actualiza las propiedades de un resultado con ID particular. Necesita un `applic
         ]
       }
     },
-    "id": "8985ce9f-d398-41b2-a384-156ddc930e17"
+    "id": "8985ce9f-d398-41b2-a384-156ddc930e17",
+    "type": "everyone"
   }
 }
 ```
