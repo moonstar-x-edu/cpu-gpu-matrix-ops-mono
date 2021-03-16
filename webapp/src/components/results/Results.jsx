@@ -11,7 +11,7 @@ import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
 import { parseResultsForBarChart } from '../../utils/charting';
-import { getAllResults } from '../../networking';
+import { getAllResultsFromEveryone } from '../../networking';
 
 const colors = {
   gpu: 'rgb(255, 99, 132)',
@@ -37,9 +37,10 @@ const Results = () => {
     setActive(NAVBAR_ITEMS.results);
     updatePageTitle('Resultados');
 
-    if (shouldFetch || (!allResults && !fetchError && !loading)) {
+    if (shouldFetch) {
       setLoading(true);
-      getAllResults()
+      setShouldFetch(false);
+      getAllResultsFromEveryone()
         .then((results) => {
           setAllResults(results);
           setLoading(false);
@@ -67,18 +68,18 @@ const Results = () => {
     setCurrentResult(allResults.find((res) => res.id === id));
   }
 
-  if (!allResults || loading) {
-    return (
-      <Container className="results-content">
-        <LoadingSpinner color="custom" loading={loading} />
-      </Container>
-    );
-  }
-
   if (fetchError) {
     return (
       <Container className="results-content">
         <AlertBox color="red" title="😢 Algo sucedió al comunicarse con el API de resultados..." text={[fetchError.message]} />
+      </Container>
+    );
+  }
+
+  if (!allResults || loading) {
+    return (
+      <Container className="results-content">
+        <LoadingSpinner color="custom" loading={loading} />
       </Container>
     );
   }
@@ -97,7 +98,13 @@ const Results = () => {
       <ResultsDropdown results={allResults} onSelect={handleDropdownSelect} />
       {
         currentResult &&
-          <ResultBarChart data={parseResultsForBarChart(currentResult.results, colors)} redraw yLabel="ms (menor es mejor)" title={currentResult.gpuInfo.renderer} />
+          <ResultBarChart
+            data={parseResultsForBarChart(currentResult.results, colors)}
+            redraw
+            yLabel="ms (menor es mejor)"
+            xLabel={currentResult.ua}
+            title={`${currentResult.gpuInfo.renderer} (x${currentResult.results.iterations})`}
+          />
       }
     </Container>
   );
