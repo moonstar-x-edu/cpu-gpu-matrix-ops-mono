@@ -104,6 +104,7 @@ const Results = () => {
             yLabel="ms (menor es mejor)"
             xLabel={currentResult.ua}
             title={`${currentResult.gpuInfo.renderer} (x${currentResult.results.iterations})`}
+            id={currentResult.id}
           />
       }
     </Container>
