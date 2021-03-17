@@ -47,7 +47,7 @@ const BenchmarkForm = ({ form, onChange, disabled }) => {
       </Form.Group>
       <Form.Group controlId={iterationsControl}>
         <Form.Label>
-          Número de iteraciones
+          Número de iteraciones ({form[iterationsControl]})
         </Form.Label>
         <RangeSlider
           inputProps={{ id: iterationsControl }}
@@ -89,10 +89,17 @@ const BenchmarkForm = ({ form, onChange, disabled }) => {
             checked={form[matrixSizesControl].includes(1024)}
           />
         </div>
-        <span className="text-muted">
+        <div className="text-muted">
           ¡Cuidado! Seleccionar 1024 puede hacer que el benchmark duré bastante,
           especialmente con un número alto de iteraciones.
-        </span>
+        </div>
+        <div className="text-muted">
+          Solo utilizando un tamaño de 1024 y 10 iteraciones, el benchmark puede durar hasta 3 minutos aproximadamente.
+        </div>
+        <hr />
+        <div>
+          Te recomendamos utilizar las opciones predeterminadas.
+        </div>
       </Form.Group>
     </Form>
   );

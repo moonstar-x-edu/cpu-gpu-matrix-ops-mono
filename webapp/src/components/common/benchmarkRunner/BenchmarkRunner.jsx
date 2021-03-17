@@ -5,11 +5,9 @@ import BenchmarkModal from '../benchmarkModal';
 import BenchmarkResultsList from '../benchmarkResultsList';
 import LoadingSpinner from '../loadingSpinner';
 import { generateMatrices, multiplyMatrixCPU, multiplyMatrixGPU } from '../../../utils/matrix';
-import { executionTime, BENCHMARK } from '../../../utils/benchmark';
+import { executionTime } from '../../../utils/benchmark';
 
-const matrices = BENCHMARK.DEFAULT_MATRIX_SIZES.map((size) => generateMatrices(size));
-
-const BenchmarkRunner = ({ onStart, onTerminate }) => {
+const BenchmarkRunner = ({ onStart, onTerminate, iterations, matrixSizes }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentModal, setCurrentModal] = useState(0);
   const [running, setRunning] = useState(false);
@@ -18,9 +16,11 @@ const BenchmarkRunner = ({ onStart, onTerminate }) => {
   const [benchmarkError, setBenchmarkError] = useState([]);
 
   function doBenchmark() {
+    const matrices = matrixSizes.map((size) => generateMatrices(size));
+    
     Promise.all(matrices.map(async(pair) => {
-      const cpuTime = await executionTime(BENCHMARK.DEFAULT_ITERATIONS, multiplyMatrixCPU, pair);
-      const gpuTime = await executionTime(BENCHMARK.DEFAULT_ITERATIONS, multiplyMatrixGPU(pair[0].length), pair);
+      const cpuTime = await executionTime(iterations, multiplyMatrixCPU, pair);
+      const gpuTime = await executionTime(iterations, multiplyMatrixGPU(pair[0].length), pair);
       return [cpuTime, gpuTime];
     }))
       .then((times) => {
@@ -105,8 +105,8 @@ const BenchmarkRunner = ({ onStart, onTerminate }) => {
               <BenchmarkResultsList
                 cpuTimes={cpuTimes}
                 gpuTimes={gpuTimes}
-                matrixSizes={BENCHMARK.DEFAULT_MATRIX_SIZES}
-                iterations={BENCHMARK.DEFAULT_ITERATIONS}
+                matrixSizes={matrixSizes}
+                iterations={iterations}
               />
             </div>
           </BenchmarkModal>
@@ -126,7 +126,9 @@ const BenchmarkRunner = ({ onStart, onTerminate }) => {
 
 BenchmarkRunner.propTypes = {
   onStart: PropTypes.func.isRequired,
-  onTerminate: PropTypes.func.isRequired
+  onTerminate: PropTypes.func.isRequired,
+  iterations: PropTypes.number.isRequired,
+  matrixSizes: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
 export default BenchmarkRunner;
