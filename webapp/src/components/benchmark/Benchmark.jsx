@@ -17,7 +17,7 @@ import { BENCHMARK } from '../../utils/benchmark';
 const Benchmark = () => {
   const [gpuInfo, setGPUInfo] = useState(null);
   const [UA, setUA] = useState(null);
-  const [form, setForm] = useState({ name: '' });
+  const [form, setForm] = useState({ name: '', iterations: BENCHMARK.DEFAULT_ITERATIONS, matrixSizes: [] });
   const [showToast, setShowToast] = useState(false);
   const [postError, setPostError] = useState(null);
   const { setActive } = useContext(AppContext);
@@ -45,8 +45,8 @@ const Benchmark = () => {
       ua: UA,
       gpuInfo,
       results: {
-        matrixSizes: BENCHMARK.matrixSizes,
-        iterations: BENCHMARK.iterations,
+        matrixSizes: form.matrixSizes,
+        iterations: form.iterations,
         times: {
           cpu: cpuTimes,
           gpu: gpuTimes
