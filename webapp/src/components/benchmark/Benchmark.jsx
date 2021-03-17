@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
+import { GPU } from 'gpu.js';
 import SectionHeader from '../common/sectionHeader';
 import SharedInfoDisclosure from '../common/sharedInfoDisclosure';
 import BenchmarkForm from '../common/benchmarkForm';
 import BenchmarkRunner from '../common/benchmarkRunner';
 import UploadToast from '../common/uploadToast';
+import AlertBox from '../common/alertBox';
 import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
@@ -77,12 +79,26 @@ const Benchmark = () => {
     setFormDisabled(true);
   }
 
+  if (!GPU.isGPUSupported) {
+    return (
+      <Container className="benchmark-content">
+        <SectionHeader first text="Benchmark" />
+        <AlertBox color="red" title="No se pudo obtener un contexto webGL!" text={['Hubo un problema al intentar utilizar tu GPU.']} />
+      </Container>
+    );
+  }
+
   return (
     <Container className="benchmark-content">
       <SectionHeader first text="Benchmark" />
       <SharedInfoDisclosure gpu={gpuInfo} ua={UA} />
       <BenchmarkForm disabled={formDisabled} form={form} onChange={handleFormChange} />
-      <BenchmarkRunner onStart={handleStart} onTerminate={handleBenchmarkTermination} />
+      <BenchmarkRunner
+        iterations={form.iterations}
+        matrixSizes={form.matrixSizes}
+        onStart={handleStart}
+        onTerminate={handleBenchmarkTermination}
+      />
       <UploadToast error={postError} show={showToast} onClose={handleCloseToast} />
     </Container>
   );
