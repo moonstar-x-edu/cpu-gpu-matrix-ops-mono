@@ -75,10 +75,24 @@ const BenchmarkForm = ({ form, onChange, disabled }) => {
                 label={size}
                 type="checkbox"
                 onChange={handleCheckboxChange}
+                checked={form[matrixSizesControl].includes(size)}
               />
             ))
           }
+          <Form.Check
+            disabled={disabled}
+            inline
+            id={`${matrixSizesControl}-1024`}
+            label={1024}
+            type="checkbox"
+            onChange={handleCheckboxChange}
+            checked={form[matrixSizesControl].includes(1024)}
+          />
         </div>
+        <span className="text-muted">
+          ¡Cuidado! Seleccionar 1024 puede hacer que el benchmark duré bastante,
+          especialmente con un número alto de iteraciones.
+        </span>
       </Form.Group>
     </Form>
   );

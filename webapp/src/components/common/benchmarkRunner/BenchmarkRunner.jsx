@@ -9,7 +9,7 @@ import { executionTime, BENCHMARK } from '../../../utils/benchmark';
 
 const matrices = BENCHMARK.DEFAULT_MATRIX_SIZES.map((size) => generateMatrices(size));
 
-const BenchmarkRunner = ({ onTerminate }) => {
+const BenchmarkRunner = ({ onStart, onTerminate }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentModal, setCurrentModal] = useState(0);
   const [running, setRunning] = useState(false);
@@ -58,6 +58,7 @@ const BenchmarkRunner = ({ onTerminate }) => {
   }
 
   function handleStart() {
+    onStart();
     setRunning(true);
     handleContinue();
     setTimeout(doBenchmark, 1000);
@@ -124,6 +125,7 @@ const BenchmarkRunner = ({ onTerminate }) => {
 };
 
 BenchmarkRunner.propTypes = {
+  onStart: PropTypes.func.isRequired,
   onTerminate: PropTypes.func.isRequired
 };
 

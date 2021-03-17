@@ -17,9 +17,10 @@ import { BENCHMARK } from '../../utils/benchmark';
 const Benchmark = () => {
   const [gpuInfo, setGPUInfo] = useState(null);
   const [UA, setUA] = useState(null);
-  const [form, setForm] = useState({ name: '', iterations: BENCHMARK.DEFAULT_ITERATIONS, matrixSizes: [] });
+  const [form, setForm] = useState({ name: '', iterations: BENCHMARK.DEFAULT_ITERATIONS, matrixSizes: BENCHMARK.DEFAULT_MATRIX_SIZES });
   const [showToast, setShowToast] = useState(false);
   const [postError, setPostError] = useState(null);
+  const [formDisabled, setFormDisabled] = useState(false);
   const { setActive } = useContext(AppContext);
   const { setShouldFetch } = useContext(ResultsContext);
 
@@ -58,11 +59,13 @@ const Benchmark = () => {
       .then(() => {
         setShowToast(true);
         setShouldFetch(true);
+        setFormDisabled(false);
       })
       .catch((error) => {
         setPostError(error);
         setShowToast(true);
         setShouldFetch(true);
+        setFormDisabled(false);
       });
   }
 
@@ -70,12 +73,16 @@ const Benchmark = () => {
     setShowToast(false);
   }
 
+  function handleStart() {
+    setFormDisabled(true);
+  }
+
   return (
     <Container className="benchmark-content">
       <SectionHeader first text="Benchmark" />
       <SharedInfoDisclosure gpu={gpuInfo} ua={UA} />
-      <BenchmarkForm form={form} onChange={handleFormChange} />
-      <BenchmarkRunner onTerminate={handleBenchmarkTermination} />
+      <BenchmarkForm disabled={formDisabled} form={form} onChange={handleFormChange} />
+      <BenchmarkRunner onStart={handleStart} onTerminate={handleBenchmarkTermination} />
       <UploadToast error={postError} show={showToast} onClose={handleCloseToast} />
     </Container>
   );
