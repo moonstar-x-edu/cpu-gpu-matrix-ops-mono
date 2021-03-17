@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
+import { GPU } from 'gpu.js';
 import SectionHeader from '../common/sectionHeader';
 import SharedInfoDisclosure from '../common/sharedInfoDisclosure';
 import BenchmarkForm from '../common/benchmarkForm';
 import BenchmarkRunner from '../common/benchmarkRunner';
 import UploadToast from '../common/uploadToast';
+import AlertBox from '../common/alertBox';
 import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
@@ -17,9 +19,10 @@ import { BENCHMARK } from '../../utils/benchmark';
 const Benchmark = () => {
   const [gpuInfo, setGPUInfo] = useState(null);
   const [UA, setUA] = useState(null);
-  const [form, setForm] = useState({ name: '' });
+  const [form, setForm] = useState({ name: '', iterations: BENCHMARK.DEFAULT_ITERATIONS, matrixSizes: BENCHMARK.DEFAULT_MATRIX_SIZES });
   const [showToast, setShowToast] = useState(false);
   const [postError, setPostError] = useState(null);
+  const [formDisabled, setFormDisabled] = useState(false);
   const { setActive } = useContext(AppContext);
   const { setShouldFetch } = useContext(ResultsContext);
 
@@ -45,8 +48,8 @@ const Benchmark = () => {
       ua: UA,
       gpuInfo,
       results: {
-        matrixSizes: BENCHMARK.matrixSizes,
-        iterations: BENCHMARK.iterations,
+        matrixSizes: form.matrixSizes,
+        iterations: form.iterations,
         times: {
           cpu: cpuTimes,
           gpu: gpuTimes
@@ -58,11 +61,13 @@ const Benchmark = () => {
       .then(() => {
         setShowToast(true);
         setShouldFetch(true);
+        setFormDisabled(false);
       })
       .catch((error) => {
         setPostError(error);
         setShowToast(true);
         setShouldFetch(true);
+        setFormDisabled(false);
       });
   }
 
@@ -70,12 +75,30 @@ const Benchmark = () => {
     setShowToast(false);
   }
 
+  function handleStart() {
+    setFormDisabled(true);
+  }
+
+  if (!GPU.isGPUSupported) {
+    return (
+      <Container className="benchmark-content">
+        <SectionHeader first text="Benchmark" />
+        <AlertBox color="red" title="No se pudo obtener un contexto webGL!" text={['Hubo un problema al intentar utilizar tu GPU.']} />
+      </Container>
+    );
+  }
+
   return (
     <Container className="benchmark-content">
       <SectionHeader first text="Benchmark" />
       <SharedInfoDisclosure gpu={gpuInfo} ua={UA} />
-      <BenchmarkForm form={form} onChange={handleFormChange} />
-      <BenchmarkRunner onTerminate={handleBenchmarkTermination} />
+      <BenchmarkForm disabled={formDisabled} form={form} onChange={handleFormChange} />
+      <BenchmarkRunner
+        iterations={form.iterations}
+        matrixSizes={form.matrixSizes}
+        onStart={handleStart}
+        onTerminate={handleBenchmarkTermination}
+      />
       <UploadToast error={postError} show={showToast} onClose={handleCloseToast} />
     </Container>
   );

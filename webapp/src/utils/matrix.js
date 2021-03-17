@@ -35,9 +35,10 @@ export const multiplyMatrixCPU = (a, b) => {
 export const multiplyMatrixGPU = (size) => {
   return gpu.createKernel(function(a, b) {
     let sum = 0;
-    for (let i = 0; i < this.output.x; i++) {
+    for (let i = 0; i < this.constants.size; i++) {
       sum += a[this.thread.y][i] * b[i][this.thread.x];
     }
     return sum;
-  }).setOutput([size, size]);
+  }).setOutput([size, size])
+    .setConstants({ size });
 };
