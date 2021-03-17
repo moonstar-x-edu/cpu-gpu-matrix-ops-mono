@@ -51,7 +51,7 @@ const ResultBarChart = ({
 
   return (
     <div className="result-bar-chart">
-      <Bar data={data} options={options} id={id} height={height} width={width} redraw={redraw} />
+      <Bar key={id} data={data} options={options} id={id} height={height} width={width} redraw={redraw} />
     </div>
   );
 };
