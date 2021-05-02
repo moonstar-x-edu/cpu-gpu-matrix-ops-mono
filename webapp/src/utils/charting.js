@@ -20,3 +20,25 @@ export const parseResultsForBarChart = (results, colors) => {
     }))
   };
 };
+
+export const parseResultsForLineChart = (results) => {
+  const values = [];
+
+  for (let i = 0; i < results.times.cpu.length; i++) {
+    const cpu = results.times.cpu[i];
+    const gpu = results.times.gpu[i];
+
+    values.push(Math.sign(cpu - gpu) * (gpu / cpu));
+  }
+
+  return {
+    labels: results.matrixSizes,
+    datasets: [{
+      label: 'Factor de rendimiento GPU sobre CPU',
+      data: values,
+      fill: false,
+      backgroundColor: 'rgb(0,250,154)',
+      borderColor: 'rgb(0,250,154)'
+    }]
+  };
+};
