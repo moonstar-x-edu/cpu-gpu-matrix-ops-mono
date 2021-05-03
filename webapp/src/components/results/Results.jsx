@@ -1,5 +1,5 @@
 /* eslint-disable no-extra-parens */
-import React, { useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import ResultBarChart from '../common/resultBarChart';
 import LoadingSpinner from '../common/loadingSpinner';
@@ -10,8 +10,9 @@ import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
-import { parseResultsForBarChart } from '../../utils/charting';
+import { parseResultsForBarChart, parseResultsForLineChart, parseAllResultsForLineChart } from '../../utils/charting';
 import { getAllResultsFromEveryone } from '../../networking';
+import ResultLineChart from '../common/resultLineChart/ResultLineChart';
 
 const colors = {
   gpu: 'rgb(255, 99, 132)',
@@ -98,15 +99,33 @@ const Results = () => {
       <ResultsDropdown results={allResults} onSelect={handleDropdownSelect} />
       {
         currentResult &&
-          <ResultBarChart
-            data={parseResultsForBarChart(currentResult.results, colors)}
-            redraw
-            yLabel="ms (menor es mejor)"
-            xLabel={currentResult.ua}
-            title={`${currentResult.gpuInfo.renderer} (x${currentResult.results.iterations})`}
-            id={currentResult.id}
-          />
+          <Fragment>
+            <ResultBarChart
+              data={parseResultsForBarChart(currentResult.results, colors)}
+              redraw
+              yLabel="ms (menor es mejor)"
+              xLabel={currentResult.ua}
+              title={`${currentResult.gpuInfo.renderer} (x${currentResult.results.iterations})`}
+              id={currentResult.id}
+            />
+            <ResultLineChart
+              data={parseResultsForLineChart(currentResult.results)}
+              redraw
+              yLabel="xFactor (Mejor significa qué tan mejor es el GPU)"
+              xLabel={currentResult.ua}
+              title="Factor de Rendimiento del GPU vs CPU"
+              id={currentResult.id}
+            />
+          </Fragment>
       }
+      <ResultLineChart
+        data={parseAllResultsForLineChart(allResults)}
+        redraw
+        yLabel="xFactor (Mejor significa qué tan mejor es el GPU)"
+        xLabel="Tamaño de Matrices"
+        title="Factor de Rendimiento Promedio Total del GPU vs CPU"
+        id="average-line-chart"
+      />
     </Container>
   );
 };
