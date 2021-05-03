@@ -10,7 +10,7 @@ import AppContext from '../../context/AppContext';
 import ResultsContext from '../../context/ResultsContext';
 import { NAVBAR_ITEMS } from '../../constants';
 import { updatePageTitle } from '../../utils/page';
-import { parseResultsForBarChart, parseResultsForLineChart } from '../../utils/charting';
+import { parseResultsForBarChart, parseResultsForLineChart, parseAllResultsForLineChart } from '../../utils/charting';
 import { getAllResultsFromEveryone } from '../../networking';
 import ResultLineChart from '../common/resultLineChart/ResultLineChart';
 
@@ -109,7 +109,7 @@ const Results = () => {
               id={currentResult.id}
             />
             <ResultLineChart
-              data={parseResultsForLineChart(currentResult.results, colors)}
+              data={parseResultsForLineChart(currentResult.results)}
               redraw
               yLabel="xFactor (Mejor significa qué tan mejor es el GPU)"
               xLabel={currentResult.ua}
@@ -118,6 +118,14 @@ const Results = () => {
             />
           </Fragment>
       }
+      <ResultLineChart
+        data={parseAllResultsForLineChart(allResults)}
+        redraw
+        yLabel="xFactor (Mejor significa qué tan mejor es el GPU)"
+        xLabel="Tamaño de Matrices"
+        title="Factor de Rendimiento Promedio Total del GPU vs CPU"
+        id="average-line-chart"
+      />
     </Container>
   );
 };
