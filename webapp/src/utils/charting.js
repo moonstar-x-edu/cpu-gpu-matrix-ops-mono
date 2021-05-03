@@ -32,7 +32,7 @@ export const parseResultsForLineChart = (results) => {
     const cpu = results.times.cpu[i];
     const gpu = results.times.gpu[i];
 
-    values.push(Math.sign(cpu - gpu) * (gpu / cpu));
+    values.push(Math.sign(cpu - gpu) * (cpu / gpu));
   }
 
   return {
@@ -66,7 +66,7 @@ export const parseAllResultsForLineChart = (allResults) => {
       const cpu = results.times.cpu[i];
       const gpu = results.times.gpu[i];
 
-      values[size] += Math.sign(cpu - gpu) * (gpu / cpu);
+      values[size] += Math.sign(cpu - gpu) * (cpu / gpu);
     }
   }
 
